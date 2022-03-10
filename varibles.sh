@@ -10,3 +10,7 @@ echo ${b} Traning n
 
 DATE=2022-03-10
 echo Today date is $DATE
+
+
+DATE=(date +%F)
+echo Today date is DATE
