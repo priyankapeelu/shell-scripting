@@ -26,3 +26,5 @@ c=(10 20 small large)
 echo first value of Array = ${c[0]}
 echo Third value of array = ${c[2]}
 
+
+echo Traning = ${TRANING}
