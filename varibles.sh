@@ -13,7 +13,7 @@ echo Today date is $DATE
 
 
 DATE=(date +%F)
-echo Today date is DATE
+echo Today date is DATE J
 
 x=10
 y=20
