@@ -13,7 +13,7 @@ Print() {
   echo -e "\e[36m $1 \e[0m"
 }
 
-USER_ID-$(id -u)
+USER_ID=$(id -u)
 if [ "$USER_ID" -ne 0 ]; then
   echo You should run your script as sudo as sudo or root user
   exit 1
