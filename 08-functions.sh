@@ -8,5 +8,5 @@ Print_Message() {
   echo Welcome to DevOps Traning
 }
 
-Print_Meassage
+Print_Message
 
