@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -e components/$1.sh ]; then
+if [ ! -e components/$1.sh ]; then
   echo "Components does not exit"
 fi
 
