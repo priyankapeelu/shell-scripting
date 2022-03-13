@@ -1,26 +1,54 @@
 #!/bin/bash
 
+statCheck() {
+  if [ $1 -eq 0]; then
+    echo -e "\e[32mSUCCES\e[0m"
+  else
+    echo -e '\e[31mFAILURE\e[0m'
+    exit 2
+  fi
+}
+
+Print() {
+  echo -e "\e[36m $1 \e[0m"
+}
+
 USER_ID-$(id -u)
 if [ "$USER_ID" -ne 0 ]; then
   echo You should run your script as sudo as sudo or root user
-  exit
+  exit 1
 fi
+LOG_FILE=/Ttmp/roboshop.log
+rm -f $LOG_FILE
 
-echo -e "\e[36m Installing Nginx \e[0m"
-yum install nginx -y
+Print "Installing Nginx"
+yum install nginx -y >>$LOG_FILE
+statCheck $?
 
-echo -e "\e[36m Downloading Nginx Content \e]0"
-curl -s -L -o /tmp/frontend.zip "https://github.com/roboshop-devops-project/frontend/archive/main.zi"
 
-echo -e "\e[36m Cleanup Old Nginx Content and Extract new Download"
+Print "Downloading Nginx Content"
+curl -s -L -o /tmp/frontend.zip "https://github.
+com/roboshop-devops-project/frontend/archive/main.zip" >>$LOG_FILE
+StatCheck $?
+
+Print "Cleanup Old Nginx Content"
+rm -rf /usr/share/nginx/html/* >>$LOG_FILE
+StatCheck $?
+
+Print "Cleanup Old Nginx Content
 rm -rf /usr/share/nginx/html/*
-cd /usr/share/nginx/html
-unzip /tmp/frontend.zip
-mv frontend-main/* .
-mv static/* .
-rm -rf frontend-main README.md
-mv localhost.conf /etc/nginx/default.d/roboshop.conf
+StatCheck $?
 
-echo -e "\e[36m Sarting Nginx \e[0m"
-systemctl restart nginx
-systemctl enable nginx
+cd /usr/share/nginx/html
+
+Print "Extracting Archive"
+unzip /tmp/frontend.zip >>$LOG_FILE | && frontend-main/* . >>$$LOG_FILE && mv static/* .
+>>$LOG_FILE .
+StatCheck $?
+
+Print "Update Roboshop Configiration"
+mv localhost.conf /etc/nginx/default.d/roboshop.conf >>$$LOG_FILE
+StatCheck $?
+
+Print "Starting Nginx"
+systemctl restart nginx >>$$LOG_FILE && systemctl enable nginx >>$$LOG_FILE
