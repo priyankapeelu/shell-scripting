@@ -1,7 +1,7 @@
 #!/bin/bash
 
-statCheck() {
-  if [ $1 -eq 0]; then
+StatCheck() {
+  if [ $1 -eq 0 ]; then
     echo -e "\e[32mSUCCES\e[0m"
   else
     echo -e '\e[31mFAILURE\e[0m'
@@ -23,7 +23,7 @@ rm -f $LOG_FILE
 
 Print "Installing Nginx"
 yum install nginx -y >>$LOG_FILE
-statCheck $?
+StatCheck $?
 
 Print "Downloading Nginx Content"
 curl -s -L -o /tmp/frontend.zip "https://github.
@@ -34,7 +34,7 @@ Print "Cleanup Old Nginx Content"
 rm -rf /usr/share/nginx/html/* >>$LOG_FILE
 StatCheck $?
 
-Print "Cleanup Old Nginx Content
+Print "Cleanup Old Nginx Content"
 rm -rf /usr/share/nginx/html/*
 StatCheck $?
 
