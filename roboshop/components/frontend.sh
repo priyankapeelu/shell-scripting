@@ -25,7 +25,6 @@ Print "Installing Nginx"
 yum install nginx -y >>$LOG_FILE
 statCheck $?
 
-
 Print "Downloading Nginx Content"
 curl -s -L -o /tmp/frontend.zip "https://github.
 com/roboshop-devops-project/frontend/archive/main.zip" >>$LOG_FILE
@@ -52,3 +51,4 @@ StatCheck $?
 
 Print "Starting Nginx"
 systemctl restart nginx >>$$LOG_FILE && systemctl enable nginx >>$$LOG_FILE
+StatCheck $?
