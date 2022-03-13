@@ -4,7 +4,7 @@ yum install nginx -y
 systemctl enable nginx
 systemctl start nginx
 
-curl -s -L -o /tmp/frontend.zip "https://github.com/roboshop-devops-project/frontend/archive/main.zip"
+curl -s -L -o /tmp/frontend.zip "https://github.com/roboshop-devops-project/frontend/archive/main.zi"
 
 rm -rf /usr/share/nginx/html/*
 cd /usr/share/nginx/html
