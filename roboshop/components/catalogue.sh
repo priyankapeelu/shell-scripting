@@ -29,7 +29,7 @@ Print "Install NodeJS"
 StatCheck $?
 
 Print "Add Application User"
-useradd ${APP_USER}
+useradd ${APP_USER} &>>${LOG_FILE}
 StatCheck $?
 
 Print "Download App Component"
