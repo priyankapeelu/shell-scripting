@@ -2,24 +2,6 @@
 
 source components/common.sh
 
-#1. So let's switch to the `roboshop` user and run the following commands.
-#
-#```bash
-#$ curl -s -L -o /tmp/catalogue.zip "https://github.com/roboshop-devops-project/catalogue/archive/main.zip"
-#$ cd /home/roboshop
-#$ unzip /tmp/catalogue.zip
-#$ mv catalogue-main catalogue
-#$ cd /home/roboshop/catalogue
-#$ npm install
-#
-#```
-#
-#1. Update SystemD file with correct IP addresses
-#
-#   Update `MONGO_DNSNAME` with MongoDB Server IP
-#
-#2. Now, lets set up the service with systemctl.
-
 Print "Configure Yum repos"
 curl -fsSL https://rpm.nodesource.com/setup_lts.x | bash - &>>${LOG_FILE}
 StatCheck $?
@@ -54,4 +36,7 @@ StatCheck $?
 Print "Fix App User Permissions"
 chown -R ${APP_USER}:${APP_USER} /home/${APP_USER}
 StatCheck $?
+
+Print "Setup SystemD File"
+
 
