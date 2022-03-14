@@ -25,7 +25,7 @@ curl -fsSL https://rpm.nodesource.com/setup_lts.x | bash - &>>${LOG_FILE}
 StatCheck $?
 
 Print "Install NodeJS"
-# yum install nodejs gcc-c++ -y &>>${LOG_FILE}
+yum install nodejs gcc-c++ -y &>>${LOG_FILE}
 StatCheck $?
 
 Print "Add Application User"
