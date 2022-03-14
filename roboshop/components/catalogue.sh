@@ -21,7 +21,7 @@ source components/common.sh
 #2. Now, lets set up the service with systemctl.
 
 Print "Configure Yum repos"
-# curl -fsSL https://rpm.nodesource.com/setup_lts.x | bash - &>>${LOG_FILE}
+curl -fsSL https://rpm.nodesource.com/setup_lts.x | bash - &>>${LOG_FILE}
 StatCheck $?
 
 Print "Install NodeJS"
