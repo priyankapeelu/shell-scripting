@@ -29,7 +29,7 @@ yum install nodejs gcc-c++ -y &>>${LOG_FILE}
 StatCheck $?
 
 Print "Add Application User"
-id ${APP USER &>>${LOG_FILE}}
+id ${APP USER} &>>${LOG_FILE}
 if [ $2 -ne 0 ]; then
   useradd ${APP_USER} &>>${LOG_FILE}
   StatCheck $?
