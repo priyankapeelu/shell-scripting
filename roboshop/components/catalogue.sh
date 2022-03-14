@@ -40,7 +40,8 @@ StatCheck $?
 Print "Setup SystemD File"
 sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.internal/'
 /home/roboshop/catalogue/systemd.service &>>${LOG_FILE} && mv
-/home/roboshop/catalogue/systemd.service /etc/systemd/system/catalogue
+/home/roboshop/catalogue/systemd.service
+/etc/systemd/system/catalogue
 .service &>>${LOG_FILE}
 StatCheck $?
 
