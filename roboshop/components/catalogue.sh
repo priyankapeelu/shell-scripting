@@ -42,7 +42,7 @@ rm -rf /home/roboshop/catalogue &&>>${LOG_FILE}
 StatCheck $?
 
 Print "Extract App Content"
-cd /home/roboshop && unzip -o /tmp/catalogue.zip &>>&>>${LOG_FILE} && mv catalogue-main catalogue &>>${LOG_FILE}
+cd /home/roboshop && unzip -o /tmp/catalogue.zip &>>${LOG_FILE} && mv catalogue-main catalogue &>>${LOG_FILE}
 StatCheck $?
 
 Print "Install App Dependencies"
