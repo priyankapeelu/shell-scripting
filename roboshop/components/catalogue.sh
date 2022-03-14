@@ -49,4 +49,5 @@ Print "Install App Dependencies"
 cd /home/${APP_USER}/catalogue &&>>${LOG_FILE} && npm install &>>${LOG_FILE}
 StatCheck $?
 
+.
 
