@@ -7,7 +7,7 @@ yum install https://github.com/rabbitmq/erlang-rpm/releases/download/v23.2.6/erl
 StatCheck $?
 
 Print "configure yum repos"
-curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>>{LOG_FILE}
+curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash &>>{LOG_FILE}
 StatCheck $?
 
 Print "Install RabbitMQ-Server"
