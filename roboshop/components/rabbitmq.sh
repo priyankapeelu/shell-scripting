@@ -26,8 +26,7 @@ if [ $? -ne 0 ]; then
 fi
 
 Print "configure application user"
-rabbitmqctl set_user_tags roboshop administrator && rabbitmqctl
-  set_permissions -p / roboshop ".*" ".*" ".*"
+rabbitmqctl set_user_tags roboshop administrator && rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>>${LOG_FILE}
   StatCheck $?
 
 
