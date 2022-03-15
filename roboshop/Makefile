@@ -10,5 +10,5 @@ mongodb:
 catalogue:
 	bash components/catalogue.sh
 
-cart:
+redis:
 	bash components/redis.sh
