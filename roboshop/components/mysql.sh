@@ -14,10 +14,10 @@ Print "start mysql service"
 systemctl enable mysqld &>>${LOG_FILE} && systemctl start mysqld &>>${LOG_FILE}
 StatCheck $?
 
-echo "show databases"|mysql -uroot -pRoboShop@1 &>>${LOG_FILE}
-if [$? -ne 0]; then
+echo "show databases" | mysql -uroot -pRoboShop@1 &>>${LOG_FILE}
+if [ $? -ne 0 ]; then
   Print "Update the root password"
-  echo "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('RoboShop@1');" >/tmp/rootpass.sql &>>${LOG_FILE}
+  echo "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('RoboShop@1');" >/tmp/rootpass.sql
   DEFAULT_ROOT_PASSWORD=$(grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}') &>>${LOG_FILE}
   mysql --connect-expired-password -uroot -p"${DEFAULT_ROOT_PASSWORD}" </tmp/rootpass.sql &>>${LOG_FILE}
   StatCheck $?
