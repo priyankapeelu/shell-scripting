@@ -14,7 +14,7 @@ Print "start mysql service"
 systemctl enable mysqld &>>${LOG_FILE} && systemctl start mysqld &>>${LOG_FILE}
 StatCheck $?
 
-
+# grep temp /var/log/mysqld.log
 
 #1. Next, We need to change the default root password in order to start using the database service. Use password `RoboShop@1` or any other as per your choice. Rest of the options you can choose `No`
 #
