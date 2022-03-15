@@ -23,6 +23,13 @@ if [ $? -ne 0 ]; then
   StatCheck $?
 fi
 
+echo show plugins | mysql -uroot -pRoboShop@1 2>>${LOG_FILE} | grep validate_password
+IF [$? -eq 0 ]; then
+  echo "uninstall password validate plugin"
+  echo 'uninstall plugin validate_password;' ?/tmp/pass-validate.sql
+  mysql --connect-expired-password -uroot -pRoboShop@1 </tmp/pass-validate.sql &>>{LOG_FILE}
+  StatCheck $?
+
 # grep temp /var/log/mysqld.log
 
 #1. Next, We need to change the default root password in order to start using the database service. Use password `RoboShop@1` or any other as per your choice. Rest of the options you can choose `No`
