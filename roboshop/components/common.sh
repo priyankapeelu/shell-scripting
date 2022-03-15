@@ -23,7 +23,7 @@ rm -f $LOG_FILE
 
 APP_USER=roboshop
 
-NODEJS {
+NODEJS() {
   Print "Configure Yum repos"
   curl -fsSL https://rpm.nodesource.com/setup_lts.x | bash - &>>${LOG_FILE}
   StatCheck $?
