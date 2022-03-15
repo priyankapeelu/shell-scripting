@@ -15,7 +15,7 @@ yum install rabbitmq-server -y
 StatCheck $?
 
 Print "start rabbitmq service"
-systemctl enable rabbitmq-server &>>{LOG_FILE} && systemctl start rabbitmq-server &>>{LOG_FILE}
+systemctl enable rabbitmq-server &>>{LOG_FILE} && systemctl restart rabbitmq-server &>>{LOG_FILE}
 StatCheck $?
 
 Print "create application user"
