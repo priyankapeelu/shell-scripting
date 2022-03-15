@@ -107,7 +107,7 @@ PYTHON() {
   APP_SETUP
 
   Print "install python dependencies"
-  cd /home/$&>>${APP_USER}/${COMPONENT} && pip3 install -r requirements.txt &>>${LOG_FILE
+  cd /home/$&>>${APP_USER}/${COMPONENT} && pip3 install -r requirements.txt &>>${LOG_FILE}
   StatCheck $?
 
   SERVICE_SETUP
