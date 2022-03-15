@@ -23,6 +23,46 @@ rm -f $LOG_FILE
 
 APP_USER=roboshop
 
+APP_SETUP() {
+    Print "Add Application User"
+    id ${APP_USER} &>>${LOG_FILE}
+    if [ $? -ne 0 ]; then
+      useradd ${APP_USER} &>>${LOG_FILE}
+      StatCheck $?
+    fi
+    Print "Download App Component"
+    curl -s -L -o /tmp/${COMPONENT}.zip "https://github.com/roboshop-devops-project/${COMPONENT}/archive/main.zip" &>>${LOG_FILE}
+    StatCheck $?
+
+    Print "Cleanup Old Contnent"
+    rm -rf /home/${APP_USER}/${COMPONENT} &&>>${LOG_FILE}
+    StatCheck $?
+
+    Print "Extract App Content"
+    cd /home/${APP_USER} && unzip -o /tmp/${COMPONENT}.zip &>>${LOG_FILE} && mv ${COMPONENT}-main ${COMPONENT} &>>${LOG_FILE}
+    StatCheck $?
+
+}
+
+SERVICE_SETUP() {
+    Print "Fix App User Permissions"
+    chown -R ${APP_USER}:${APP_USER} /home/${APP_USER}
+    StatCheck $?
+
+    Print "Setup SystemD File"
+    sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.internal/' \
+    -e 's/REDIS_ENDPOINT/redis.roboshop.internal/' \
+    -e 's/MONGO_ENDPOINT/mongodb.roboshop.internal/' \
+    -e 's/CATALOGUE_ENDPOINT/catalogue.roboshop.internal/' \
+    -e 's/CARTENDPOINT/cart.roboshop.internal/' \
+    -e 's/DBHOST/mysql.roboshop.internal/' \
+    /home/roboshop/${COMPONENT}/systemd.service &>>${LOG_FILE} && mv /home/roboshop/${COMPONENT}/systemd.service /etc/systemd/system/${COMPONENT}.service &>>${LOG_FILE}
+    StatCheck $?
+
+    Print "Restart ${COMPONENT} Service"
+    systemctl daemon-reload &>>${LOG_FILE} && systemctl restart ${COMPONENT} &>>${LOG_FILE} && systemctl enable ${COMPONENT} &>>${LOG_FILE}
+}
+
 NODEJS() {
   Print "Configure Yum repos"
   curl -fsSL https://rpm.nodesource.com/setup_lts.x | bash - &>>${LOG_FILE}
@@ -32,37 +72,25 @@ NODEJS() {
   yum install nodejs gcc-c++ -y &>>${LOG_FILE}
   StatCheck $?
 
-  Print "Add Application User"
-  id ${APP_USER} &>>${LOG_FILE}
-  if [ $? -ne 0 ]; then
-    useradd ${APP_USER} &>>${LOG_FILE}
-  fi
-  StatCheck $?
-
-  Print "Download App Component"
-  curl -s -L -o /tmp/${COMPONENT}.zip "https://github.com/roboshop-devops-project/${COMPONENT}/archive/main.zip" &>>${LOG_FILE}
-  StatCheck $?
-
-  Print "Cleanup Old Contnent"
-  rm -rf /home/${APP_USER}/${COMPONENT} &&>>${LOG_FILE}
-  StatCheck $?
-
-  Print "Extract App Content"
-  cd /home/${APP_USER} && unzip -o /tmp/${COMPONENT}.zip &>>${LOG_FILE} && mv ${COMPONENT}-main ${COMPONENT} &>>${LOG_FILE}
-  StatCheck $?
+  APP_SETUP
 
   Print "Install App Dependencies"
   cd /home/${APP_USER}/${COMPONENT} &&>>${LOG_FILE} && npm install &>>${LOG_FILE}
   StatCheck $?
 
-  Print "Fix App User Permissions"
-  chown -R ${APP_USER}:${APP_USER} /home/${APP_USER}
+  SERVICE_SETUP
+}
+
+MAVEN() {
+  Print "Install Maven"
+  yum install maven -y
   StatCheck $?
 
-  Print "Setup SystemD File"
-  sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.internal/' -e 's/REDIS_ENDPOINT/redis.roboshop.internal/' -e 's/MONGO_ENDPOINT/mongodb.roboshop.internal/' -e 's/CATALOGUE_ENDPOINT/catalogue.roboshop.internal/' /home/roboshop/${COMPONENT}/systemd.service &>>${LOG_FILE} && mv /home/roboshop/${COMPONENT}/systemd.service /etc/systemd/system/${COMPONENT}.service &>>${LOG_FILE}
+  APP_SETUP
+
+  Print "Maven Packaging"
+  cd /home/${APP_USER}/${COMPONENT} && mvn clean package && mv target/shipping-1.0.jar shipping.jar &>>${LOG_FILE}
   StatCheck $?
 
-  Print "Restart ${COMPONENT} Service"
-  systemctl daemon-reload &>>${LOG_FILE} && systemctl restart ${COMPONENT} &>>${LOG_FILE} && systemctl enable ${COMPONENT} &>>${LOG_FILE}
+  SERVICE_SETUP
 }
