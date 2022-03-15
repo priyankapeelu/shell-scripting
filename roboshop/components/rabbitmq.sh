@@ -18,6 +18,16 @@ Print "start rabbitmq service"
 systemctl enable rabbitmq-server &>>${LOG_FILE} && systemctl start rabbitmq-server &>>${LOG_FILE}
 StatCheck $?
 
-Print "create application user"
-rabbitmqctl add_user roboshop roboshop123 &>>${LOG_FILE}
-StatCheck $?
+rabbitmqctl list_users | grep roboshop &>>${LOG_FILE}
+if [ $? -ne 0 ]; then
+  Print "create application user"
+  rabbitmqctl add_user roboshop roboshop123 &>>${LOG_FILE}
+  StatCheck $?
+fi
+
+Print "configure application user"
+rabbitmqctl set_user_tags roboshop administrator && rabbitmqctl
+  set_permissions -p / roboshop ".*" ".*" ".*"
+  StatCheck $?
+
+
