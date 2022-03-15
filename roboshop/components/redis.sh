@@ -11,7 +11,12 @@ yum install redis -y &>>${LOG_FILE}
 StatCheck $?
 
 Print "replacing localhost with 0.0.0.0 in redis conf"
-sed -i -e 's/127.0.0.1/0.0.0.0/' /etc/redis.conf /etc/redis/redis.conf &>>${LOG_FILE}
+if [ -f /etc/redis.conf ]; then
+sed -i -e 's/127.0.0.1/0.0.0.0/' /etc/redis.conf &>>${LOG_FILE}
+fi
+if [ -f /etc/redis/redis.conf ]; then
+sed -i -e 's/127.0.0.1/0.0.0.0/' /etc/redis/redis.conf &>>${LOG_FILE}
+fi
 StatCheck $?
 
 Print "Restarting Redis Service"
