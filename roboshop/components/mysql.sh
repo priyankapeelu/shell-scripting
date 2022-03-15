@@ -31,6 +31,18 @@ if [ $? -eq 0 ]; then
   StatCheck $?
 fi
 
+Print "DOWNLOAD SCHEMA"
+curl -s -L -o /tmp/mysql.zip "https://github.com/roboshop-devops-project/mysql/archive/main.zip"
+StatCheck $?
+
+Print "extraxt schema"
+cd /tmp && unzip -o mysql.zip &>>${LOG_FILE}
+StatCheck $?
+
+Print "load schema"
+cd mysql-main && mysql -u root -pRoboShop.sql &>>${LOG_FILE}
+StatCheck $?
+
 # grep temp /var/log/mysqld.log
 
 #1. Next, We need to change the default root password in order to start using the database service. Use password `RoboShop@1` or any other as per your choice. Rest of the options you can choose `No`
