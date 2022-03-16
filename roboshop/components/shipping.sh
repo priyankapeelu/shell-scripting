@@ -2,7 +2,7 @@
 
 source components/common.sh
 
-COMPONENT=cart
+COMPONENT=shipping
 
 #function
-NODEJS
+MAVEN
